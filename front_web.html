@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Президент Кыргызской Республики</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(to right, #E31E24 65%, #FFCD00 35%);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo img {
+            width: 80px;
+            height: 80px;
+        }
+        .nav {
+            background: #1c1c1c;
+            padding: 1rem;
+        }
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        .nav-button, .lang-button {
+            background: none;
+            border: 2px solid white;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .nav-button:hover, .lang-button:hover {
+            background: #FFCD00;
+            color: #1c1c1c;
+            border-color: #FFCD00;
+        }
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .president-info {
+            background: white;
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .map-container {
+            height: 500px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .footer {
+            background: #1c1c1c;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="logo.png" alt="Герб Кыргызской Республики">
+            <h1>Президент Кыргызской Республики</h1>
+        </div>
+        <div class="lang-buttons">
+            <button class="lang-button active">КЫР</button>
+            <button class="lang-button">РУС</button>
+            <button class="lang-button">ENG</button>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <ul>
+            <li><button class="nav-button">Главная</button></li>
+            <li><button class="nav-button">Деятельность</button></li>
+            <li><button class="nav-button">Пресс-центр</button></li>
+            <li><button class="nav-button">Документы</button></li>
+            <li><button class="nav-button">Обращения</button></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="president-info">
+            <h2>Президент Кыргызской Республики</h2>
+            <p>Добро пожаловать на официальный сайт Президента Кыргызской Республики.</p>
+            <h3>Последние новости</h3>
+            <!-- Новости -->
+        </div>
+        <div id="map" class="map-container"></div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2024 Администрация Президента Кыргызской Республики</p>
+    </footer>
+
+    <script>
+        const map = L.map('map', {
+            center: [41.2044, 74.7661],
+            zoom: 7,
+            minZoom: 6,
+            maxZoom: 10,
+            maxBounds: [
+                [39.0, 69.0],  // Southwest boundary
+                [44.0, 80.0]   // Northeast boundary
+            ],
+            zoomControl: true
+        });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        const kyrgyzstanBorders = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [69.464, 39.526],
+                    [70.962, 39.526],
+                    [71.186, 39.526],
+                    [71.947, 39.526],
+                    [73.055, 39.526],
+                    [74.169, 39.526],
+                    [75.583, 39.526],
+                    [76.526, 39.526],
+                    [77.826, 42.826],
+                    [79.826, 42.826],
+                    [80.826, 43.826],
+                    [78.826, 43.826],
+                    [76.826, 43.826],
+                    [74.826, 43.826],
+                    [72.826, 43.826],
+                    [70.826, 43.826],
+                    [69.464, 39.526]
+                ]]
+            }
+        };
+
+        L.geoJSON(kyrgyzstanBorders, {
+            style: {
+                color: '#E31E24',
+                weight: 2,
+                fillColor: '#FFCD00',
+                fillOpacity: 0.3
+            }
+        }).addTo(map);
+
+        const cities = [
+            { name: "Бишкек", coords: [42.8746, 74.5698] },
+            { name: "Ош", coords: [40.5140, 72.8161] },
+            { name: "Джалал-Абад", coords: [40.9333, 73.0000] },
+            { name: "Каракол", coords: [42.4907, 78.3936] }
+        ];
+
+        cities.forEach(city => {
+            L.marker(city.coords)
+                .bindPopup(city.name)
+                .on('click', () => {
+                    map.setView(city.coords, 9, { animate: true });
+                })
+                .addTo(map);
+        });
+    </script>
+</body>
+</html>

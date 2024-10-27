@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивная карта Кыргызстана</title>
+    <style>
+        .map-container {
+            width: 600px;
+            height: 500px;
+            margin: auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Карта Кыргызстана</h1>
+    <div class="map-container">
+        <object type="image/svg+xml" data="kyrgyzstan.svg" id="kyrgyzstan-map" ></object>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const svgObject = document.getElementById("kyrgyzstan-map");
+
+            svgObject.addEventListener("load", function() {
+                const svgDoc = svgObject.contentDocument; // Получаем содержимое SVG
+
+                // Находим области карты внутри SVG
+                const regions = svgDoc.querySelectorAll("path");
+
+                regions.forEach(region => {
+                    region.addEventListener('click', () => {
+                        alert(`Вы кликнули по региону: ${region.id}`);
+                        region.style.fill = '#FFCD00'; // Изменить цвет при клике
+                    });
+
+                    region.addEventListener('mouseover', () => {
+                        region.style.fill = '#FFD700';
+                    });
+
+                    region.addEventListener('mouseout', () => {
+                        region.style.fill = '';
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
